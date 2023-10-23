@@ -1,0 +1,76 @@
+@import url("../../variables.scss");
+$blue: #4a80e8;
+$white: #d9d9d9;
+$black: #000000;
+$gray: #c3c3c3;
+$radius: 10px;
+
+.AuthentificateMainPage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > .AuthentificateBlock {
+        padding: 45px 75px;
+        background-color: $blue;
+        border-radius: $radius;
+
+        > form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+
+            > * {
+                background-color: $white;
+                border: none;
+                outline: none;
+                border-radius: $radius;
+                font-size: 24px;
+            }
+
+            > input {
+                width: 600px;
+                height: 60px;
+                padding: 0 10px;
+                color: #9f9f9f;
+                color: $black;
+
+                &:placeholder-shown {
+                    color: #9f9f9f;
+                }
+            }
+
+            > button {
+                margin-top: 16px;
+                background-color: $white;
+                width: 172px;
+                height: 60px;
+            }
+
+            > .HelpDiv {
+                background: none;
+                margin-top: -23px;
+                display: flex;
+                gap: 13px;
+
+                > a {
+                    color: $gray;
+                    font-size: 14px;
+                }
+            }
+
+            &.SignUpForm {
+                > button {
+                    margin-top: 16px;
+                    background-color: $white;
+                    width: 299px;
+                    height: 60px;
+                }
+            }
+        }
+    }
+}
