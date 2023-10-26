@@ -9,7 +9,6 @@ export default class MyRequestList extends React.Component {
             cookies: {},
             requestList: []
         };
-        axios.defaults.withCredentials = true;
     }
 
     formatDate(date) {
@@ -22,14 +21,11 @@ export default class MyRequestList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:22005/getMyCookies').then(response => {
-            if (response.status !== 200) return;
-            this.setState({ cookies: response.data });
-        }).catch(error => console.error(error.response.data.message));
+        window.getCookies().then(result => this.setState({ cookies: result }));
         axios.get('http://localhost:22005/requests/getMy').then(response => {
             if (response.status !== 200) return;
             this.setState({ requestList: response.data });
-        }).catch(error => console.error(error.response.data.message));
+        }).catch(window.errorHandler);
     }
 
     getListOfRequests() {

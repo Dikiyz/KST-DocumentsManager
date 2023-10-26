@@ -8,7 +8,6 @@ export default class RequestList extends React.Component {
         this.state = {
             listOfRequests: [],
         };
-        axios.defaults.withCredentials = true;
     }
 
     formatDate(date) {
@@ -21,24 +20,24 @@ export default class RequestList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:22005/requests/getAll').then(response => {
-            if (response.status === 200) this.setState({ listOfRequests: response.data });
-        }).catch(err => alert(err.response.data.message));
+        axios.get('http://localhost:22005/requests/getAll')
+            .then(response => this.setState({ listOfRequests: response.data }))
+            .catch(window.errorHandler);
     }
 
     addAnswerToRequest(id, answer) {
         if (answer) axios.post('http://localhost:22005/responses/approve', { id }).then(response => {
-            if (response.status === 200) alert(response.data.message);
-            axios.get('http://localhost:22005/requests/getAll').then(response => {
-                if (response.status === 200) this.setState({ listOfRequests: response.data });
-            }).catch(err => alert(err.response.data.message));
-        }).catch(err => alert(err.response.data.message));
+            alert(response.data.message);
+            axios.get('http://localhost:22005/requests/getAll')
+                .then(response => this.setState({ listOfRequests: response.data }))
+                .catch(window.errorHandler);
+        }).catch(window.errorHandler);
         else axios.post('http://localhost:22005/responses/deny', { id }).then(response => {
-            if (response.status === 200) alert(response.data.message);
-            axios.get('http://localhost:22005/requests/getAll').then(response => {
-                if (response.status === 200) this.setState({ listOfRequests: response.data });
-            }).catch(err => alert(err.response.data.message));
-        }).catch(err => alert(err.response.data.message));
+            alert(response.data.message);
+            axios.get('http://localhost:22005/requests/getAll')
+                .then(response => this.setState({ listOfRequests: response.data }))
+                .catch(window.errorHandler);
+        }).catch(window.errorHandler);
     }
 
     getListOfRequests() {

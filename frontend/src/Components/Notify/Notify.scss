@@ -1,0 +1,59 @@
+$blue: #4a80e8;
+$white: #d9d9d9;
+$black: #000000;
+$gray: #c3c3c3;
+$radius: 10px;
+
+.NotifyContainer {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    pointer-events: none;
+    padding: 25px;
+
+    >.NotifyList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        >.NotifyBlock {
+            border-radius: $radius;
+            padding: 20px;
+            background-color: $blue;
+
+            &.Succ {
+                background-color: rgb(42, 179, 0);
+            }
+
+            &.Warn {
+                background-color: rgb(211, 211, 0);
+            }
+
+            &.Err {
+                background-color: rgb(189, 0, 0);
+            }
+
+            >h4 {
+                font-size: 24px;
+                font-family: Inter-SemiBold;
+            }
+
+            >p {
+                font-size: 20px;
+            }
+
+            >.TimeLine {
+                >.Upper {
+
+                }
+
+                >.Lower {
+
+                }
+            }
+        }
+    }
+}

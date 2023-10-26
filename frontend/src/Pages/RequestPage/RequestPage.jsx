@@ -18,17 +18,13 @@ export default class RequestPage extends React.Component {
                 "5": "Форма 0-90у",
             }
         };
-        axios.defaults.withCredentials = true;
     }
 
     componentDidMount() {
-        axios.get('http://localhost:22005/requests/types').then(response => {
-            if (response.status === 200) this.setState({ types: response.data });
-        }).catch(err => alert(err.response.data.message));
-        axios.get('http://localhost:22005/getMyCookies').then(response => {
-            if (response.status !== 200) return;
-            this.setState({ cookies: response.data });
-        }).catch(error => console.error(error.response.data.message));
+        axios.get('http://localhost:22005/requests/types')
+            .then(response => this.setState({ types: response.data }))
+            .catch(window.errorHandler);
+        window.getCookies().then(result => this.setState({ cookies: result }));
     }
 
     onSubmit(e) {
@@ -36,10 +32,8 @@ export default class RequestPage extends React.Component {
         axios.post('http://localhost:22005/requests/new', {
             student_name: this.state.FIO,
             type: parseInt(this.state.selectedType)
-        }).then(response => {
-            if (response.status === 200) alert("Справка успешно заказана.");
-            else alert("Что-то пошло не так!");
-        }).catch(err => alert(err.response.data.message));
+        }).then(response => alert("Справка успешно заказана."))
+            .catch(window.errorHandler);
     }
 
     onChangeFIO(e) {
@@ -79,7 +73,6 @@ export default class RequestPage extends React.Component {
                                 >{this.getTypes()}</select>
                             </div>
                             <button type="submit">Заказать</button>
-                            {this.state.cookies?.UserDTO?.is_admin && <button>Посмотреть все справки</button>}
                         </div>
                     </form>
                 </div>

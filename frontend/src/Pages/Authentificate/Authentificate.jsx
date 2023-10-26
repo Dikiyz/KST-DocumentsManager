@@ -23,16 +23,14 @@ export default class Authentificate extends React.Component {
                 password: "",
             },
         };
-        axios.defaults.withCredentials = true;
     }
 
     componentDidMount() {
-        axios.get('http://localhost:22005/getMyCookies').then(response => {
-            if (response.status !== 200) return;
-            this.setState({ cookies: response.data }, () => {
+        window.getCookies().then(result => this.setState(
+            this.setState({ cookies: result }, () => {
                 if (this.state.cookies?.UserDTO) window.location = "/responses";
-            });
-        }).catch(error => console.error(error.response.data.message));
+            })
+        ));
     }
 
     onSubmit(e) {
@@ -41,9 +39,8 @@ export default class Authentificate extends React.Component {
             axios.post('http://localhost:22005/authorization/logIn', {
                 login: this.state.authData.login,
                 password: this.state.authData.password
-            }).then(function (response) {
-                if (response.status === 200) window.location = "/responses";
-            }).catch(error => console.error(error.response.data.message));
+            }).then((response) => window.location = "/responses")
+                .catch(window.errorHandler);
         } else {
             const SignUpData = this.state.signUpData;
             if (String(SignUpData.login).length < 4)
