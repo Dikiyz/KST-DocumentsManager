@@ -6,6 +6,9 @@ import tokens from "./models/tokens.js";
 import doc_types from "./models/doc_types.js";
 import requests from "./models/requests.js";
 import responses from "./models/responses.js";
+import students from "./models/students.js";
+import student_statuses from "./models/student_statuses.js";
+import groups from "./models/groups.js";
 
 import env from "dotenv";
 env.config();
@@ -34,6 +37,9 @@ const Tokens_Define = sequelize.define(tokens.name, tokens.params, tokens.params
 const Doc_Types_Define = sequelize.define(doc_types.name, doc_types.params, doc_types.params2);
 const Requests_Define = sequelize.define(requests.name, requests.params, requests.params2);
 const Responses_Define = sequelize.define(responses.name, responses.params, responses.params2);
+const Students_Define = sequelize.define(students.name, students.params, students.params2);
+const Student_Statuses_Define = sequelize.define(student_statuses.name, student_statuses.params, student_statuses.params2);
+const Groups_Define = sequelize.define(groups.name, groups.params, groups.params2);
 
 //#region Associations
 Users_Define.hasMany(Tokens_Define, { foreignKey: 'user_id' });
@@ -50,6 +56,12 @@ Responses_Define.belongsTo(Requests_Define, { foreignKey: 'request_id' });
 
 Doc_Types_Define.hasMany(Requests_Define, { foreignKey: 'doc_type_id' });
 Requests_Define.belongsTo(Doc_Types_Define, { foreignKey: 'doc_type_id' });
+
+Student_Statuses_Define.hasMany(Students_Define, { foreignKey: 'status_id' });
+Students_Define.belongsTo(Student_Statuses_Define, { foreignKey: 'status_id' });
+
+Groups_Define.hasMany(Students_Define, { foreignKey: 'group_id' });
+Students_Define.belongsTo(Groups_Define, { foreignKey: 'group_id' });
 //#endregion
 
 connect();
@@ -59,3 +71,6 @@ export const Tokens_DB = Tokens_Define;
 export const Doc_Types_DB = Doc_Types_Define;
 export const Requests_DB = Requests_Define;
 export const Responses_DB = Responses_Define;
+export const Students_DB = Students_Define;
+export const Student_Statuses_DB = Student_Statuses_Define;
+export const Groups_DB = Groups_Define;

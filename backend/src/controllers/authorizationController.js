@@ -12,7 +12,6 @@ export default class AuthorizationController {
             const ResulUset = await UserService.Register(login, password, email);
             if (ResulUset instanceof ApiError) return next(ApiError);
 
-            // ResultUser instanceof UserDto.
             const Token = uuidv4();
             await Tokens_DB.create({ user_id: ResulUset.id, key: Token, expired: new Date(Date.now() + 31 * 24 * 60 * 60 * 1000) });
             response.cookie('auth_token', Token);
@@ -29,7 +28,6 @@ export default class AuthorizationController {
             const ResulUset = await UserService.Authorize(login, password);
             if (ResulUset instanceof ApiError) return next(ResulUset);
 
-            // ResultUser instanceof UserDto.
             const Token = uuidv4();
             await Tokens_DB.create({ user_id: ResulUset.id, key: Token, expired: new Date(Date.now() + 31 * 24 * 60 * 60 * 1000) });
             response.cookie('auth_token', Token, { maxAge: 31 * 24 * 60 * 60 * 1000, httpOnly: true });

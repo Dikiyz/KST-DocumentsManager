@@ -1,5 +1,6 @@
+import { fn, where, col } from "sequelize";
 import ApiError from "../ApiError.js";
-import { Doc_Types_DB, Requests_DB } from "../database/index.js";
+import { Doc_Types_DB, Requests_DB, Students_DB } from "../database/index.js";
 import RequestDto from "../dtos/requestDto.js";
 import System from "../system.js";
 
@@ -32,6 +33,9 @@ export default class RequestsController {
     static async addNew(request, response, next) {
         try {
             const { student_name, type } = request.body;
+
+            const Student = await Students_DB.findOne({ where: where(fn("lower", col("name")), String(student_name).toLowerCase()) });
+            if (Student === null) return next(ApiError.badRequest("Студента с таким именем найдено не было."));
 
             await Requests_DB.create({
                 user_id: request.cookies["UserDTO"].id,
