@@ -6,8 +6,6 @@ import cors from "cors";
 import errorHandler from "./middlewares/errorHandlingMiddleware.js";
 import cookieParser from "cookie-parser";
 import System from "./system.js";
-// res.cookie('cookieName', 'cookieValue');
-// req.cookies['cookieName'];
 
 env.config();
 

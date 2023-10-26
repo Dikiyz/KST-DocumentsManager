@@ -1,6 +1,7 @@
 import env from "dotenv";
 import ApiError from "../ApiError.js";
 import { Tokens_DB, Users_DB } from "../database/index.js";
+import UserDto from "../dtos/userDto.js";
 env.config();
 
 export default async function (request, response, next) {
@@ -15,7 +16,9 @@ export default async function (request, response, next) {
             next(ApiError.badRequest("Токен для авторизации не валиден."));
             return;
         }
-        if (!TokenData.user.is_admin) return next(ApiError.badRequest("У Вас нет доступа."))
+        if (!TokenData.user.is_admin) return next(ApiError.badRequest("У Вас нет доступа."));
+        if (request.cookies["UserDto"] !== new UserDto(TokenData.user))
+            response.cookie('UserDTO', new UserDto(TokenData.user), { maxAge: 31 * 24 * 60 * 60 * 1000, httpOnly: true });
         next();
-    } catch (err) { next(ApiError.badRequest("У Вас нет доступа.")) }
+    } catch (err) { next(ApiError.internal(`Ошибка проверки прав администратора: ${err}`)); }
 };
