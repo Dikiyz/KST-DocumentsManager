@@ -1,0 +1,36 @@
+$text_color: #212121;
+
+.AdminPanelMainScreen {
+    display: flex;
+
+    > .ManageMenu {
+        width: 400px;
+        box-shadow: 3px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        height: min-content;
+
+        > .ManageButton {
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #d9d9d9;
+            transition: background-color 0.25s;
+            font-size: 24px;
+            color: $text_color;
+
+            &:not(.last) {
+                border-bottom: solid 2px #515151;
+            }
+
+            &:not(.active):hover {
+                background-color: #c7c7c7;
+            }
+
+            &.active {
+                background-color: #515151;
+                color: white;
+            }
+        }
+    }
+}

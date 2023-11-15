@@ -1,0 +1,137 @@
+.AccountListMainScreen {
+    box-sizing: border-box;
+    width: 1520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1% 5%;
+
+    > * {
+        width: 100%;
+        color: #212121;
+    }
+
+    > h2 {
+        margin: 25px 0 10px 0;
+    }
+
+    > div {
+        border-radius: 5px;
+        border: 1px solid #9a9a9a;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    > .ListCreate {
+        display: flex;
+        align-items: flex-start;
+        gap: 40px;
+
+        > .inputContainer {
+            > p {
+                font-size: 20px;
+            }
+
+            > input {
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 17px;
+                border: 1px solid #9a9a9a;
+                outline: none;
+            }
+        }
+
+        >.Button {
+            cursor: pointer;
+            padding: 7px 10px;
+            border-radius: 5px;
+            font-size: 25px;
+            background-color: #78f068;
+        }
+    }
+
+    > .ListFilter {
+        display: flex;
+        gap: 75px;
+
+        > .RegSettings {
+            width: 375px;
+            justify-content: space-between;
+            display: flex;
+        }
+    }
+
+    > .ListDiv {
+        > div {
+            width: 100%;
+        }
+
+        > .ListHeader {
+            display: flex;
+            align-items: flex-start;
+            height: 34px;
+            border-bottom: solid 2px #515151;
+
+            > p {
+                font-size: 20px;
+                font-family: Inter-SemiBold;
+                text-align: center;
+
+                &.t1 {
+                    text-align: left;
+                    width: 50px;
+                }
+
+                &.t2 {
+                    width: 250px;
+                }
+
+                &.t3 {
+                    width: 300px;
+                }
+
+                &.t4 {
+                    width: 350px;
+                }
+
+                &.t5 {
+                    width: 250px;
+                }
+            }
+        }
+
+        > .ListBody {
+            > .ListItem {
+                display: flex;
+                align-items: center;
+                height: 45px;
+
+                > p {
+                    font-size: 20px;
+                    text-align: center;
+
+                    &.t1 {
+                        text-align: left;
+                        width: 50px;
+                    }
+
+                    &.t2 {
+                        width: 250px;
+                    }
+
+                    &.t3 {
+                        width: 300px;
+                    }
+
+                    &.t4 {
+                        width: 350px;
+                    }
+
+                    &.t5 {
+                        width: 250px;
+                    }
+                }
+            }
+        }
+    }
+}

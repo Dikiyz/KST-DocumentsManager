@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./Components/Header/Header";
+import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import Authentificate from "./Pages/Authentificate/Authentificate";
 import RequestList from "./Pages/RequestList/RequestList";
 import RequestPage from "./Pages/RequestPage/RequestPage";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Authentificate />,
+    },
+    {
+        path: "/admin",
+        element: <AdminPanel />,
     },
     {
         path: "/responses",
