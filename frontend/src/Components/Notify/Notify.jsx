@@ -21,26 +21,24 @@ export default class Notify extends React.Component {
     }
 
     showNewNotify(type, text = "Текст отсутствует", _time = 2000) {
-        alert(text);
-        // const time = Date.now();
-        // const expired = Date.now() + time;
-        // const id = ++lastId;
-        // this.setState({
-        //     notifyPool: [...this.state.notifyPool, {
-        //         type, text, time, expired
-        //     }]
-        // }, () => setTimeout(() => {
-        //     console.log(111);
-        //     this.setState((prevState) => {
-        //         const Arr = [].concat(prevState.notifyPool);
-        //         let idx2 = -1;
-        //         Arr.forEach((el, idx) => {
-        //             if (el.id === id) idx2 = idx;
-        //         });
-        //         if (idx2 !== -1) Arr.splice(idx2, 1);
-        //         return { notifyPool: Arr };
-        //     });
-        // }, _time));
+        const time = Date.now();
+        const expired = Date.now() + time;
+        const id = lastId++;
+        this.setState({
+            notifyPool: [...this.state.notifyPool, {
+                id, type, text, time, expired
+            }]
+        }, () => setTimeout(() => {
+            this.setState((prevState) => {
+                const Arr = [].concat(prevState.notifyPool);
+                let idx = -1;
+                Arr.forEach((el, i) => {
+                    if (el.id === id) idx = i;
+                });
+                if (idx !== -1) Arr.splice(idx, 1);
+                return { notifyPool: Arr };
+            });
+        }, _time));
     }
 
     componentDidMount() {

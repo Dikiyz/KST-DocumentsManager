@@ -32,7 +32,7 @@ export default class RequestPage extends React.Component {
         axios.post('http://localhost:22005/requests/new', {
             student_name: this.state.FIO,
             type: parseInt(this.state.selectedType)
-        }).then(response => alert("Справка успешно заказана."))
+        }).then(response => window.showNotify(2, "Справка успешно заказана.", 2000))
             .catch(window.errorHandler);
     }
 

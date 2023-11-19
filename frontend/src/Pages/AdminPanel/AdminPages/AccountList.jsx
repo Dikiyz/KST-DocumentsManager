@@ -8,12 +8,15 @@ export default class AccountList extends React.Component {
         this.state = {
             accounts: [],
             creating: {
-                status: 0,
+                login: "",
+                password: "",
+                email: "",
+                is_admin: 0
             },
             filter: {
                 status: -1,
-                regUntil: new Date(Date.now() - 24 * 60 * 60 * 1000),
-                regAfter: new Date(Date.now() + 60 * 60 * 1000)
+                regUntil: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                regAfter: new Date(Date.now() + 24 * 60 * 60 * 1000)
             },
             cookies: {},
         };
@@ -80,20 +83,38 @@ export default class AccountList extends React.Component {
         </div >;
     }
 
+    onLoginChanged(e) {
+        const RegedString = String(e.target.value).replace(/[^a-zA-Z0-9.]/g, "");
+        if (RegedString.length > 24) this.setState({ creating: this.state.creating });
+        else this.setState({ creating: { ...this.state.creating, login: RegedString } });
+    }
+
+    onEmailChanged(e) {
+        const RegedString = String(e.target.value).replace(/[^a-zA-Z0-9.@]/g, "");
+        if (RegedString.length > 256) this.setState({ creating: this.state.creating });
+        else this.setState({ creating: { ...this.state.creating, email: RegedString } });
+    }
+
+    onPassChanged(e) {
+        const RegedString = String(e.target.value).replace(/[^a-zA-Z0-9!(){}]/g, "");
+        if (RegedString.length > 512) this.setState({ creating: this.state.creating });
+        else this.setState({ creating: { ...this.state.creating, password: RegedString } });
+    }
+
     getAccountCreating() {
         return <div className="ListCreate">
             <div className="inputContainer">
                 <p>Логин</p>
-                <input placeholder="Логин" />
+                <input placeholder="Логин" onChange={this.onLoginChanged.bind(this)} value={this.state.creating.login} />
             </div>
             <div className="inputContainer">
                 <p>Пароль</p>
-                <input placeholder="Пароль" />
+                <input placeholder="Пароль" onChange={this.onPassChanged.bind(this)} value={this.state.creating.password} />
             </div>
             <div className="inputContainer">
                 <p>Статус</p>
                 <select value={this.state.creating.status} onChange={(e) => {
-                    this.setState({ creating: { ...this.state.creating, status: parseInt(e.target.value) } })
+                    this.setState({ creating: { ...this.state.creating, is_admin: parseInt(e.target.value) } })
                 }}>
                     <option value="0">Пользователь</option>
                     <option value="1">Администратор</option>
@@ -101,9 +122,23 @@ export default class AccountList extends React.Component {
             </div>
             <div className="inputContainer">
                 <p>Почта</p>
-                <input placeholder="Почта" />
+                <input placeholder="Почта" onChange={this.onEmailChanged.bind(this)} value={this.state.creating.email} />
             </div>
-            <div className="Button">Создать</div>
+            <div className="Button" onClick={() => {
+                // 
+                const CreateData = this.state.creating;
+                if (String(CreateData.login).length < 4)
+                    return window.showNotify(2, "Логин должен состоять минимум из 4-ех символов!", 2000);
+                if (String(CreateData.password).length < 6)
+                    return window.showNotify(2, "Пароль должен состоять минимум из 6-ти символов!", 2000);
+                if (String(CreateData.email).indexOf('@') === -1 || String(CreateData.email).indexOf('.') === -1)
+                    return window.showNotify(2, "Почта должна быть действительной!", 2000);
+                axios.post('http://localhost:22005/admin/addNewAccount', this.state.creating)
+                    .then((response) => {
+                        this.updateData();
+                        window.showNotify(0, response.data.message, 1750);
+                    }).catch(window.errorHandler);
+            }}>Создать</div>
         </div>;
     }
 
@@ -112,10 +147,33 @@ export default class AccountList extends React.Component {
         this.state.accounts.forEach((acc, idx) => {
             List.push(<div className="ListItem" key={idx}>
                 <p className="t1">{acc.id}</p>
-                <p className="t2">{acc.is_admin ? "Администратор" : "Пользователь"}</p>
+                <div className="t2">
+                    <select value={acc.is_admin ? 1 : 0} onChange={(e) => {
+                        axios.post(`http://localhost:22005/admin/setNewStatus`, {
+                            id: acc.id,
+                            status: parseInt(e.target.value)
+                        }).then((response) => {
+                            this.updateData();
+                            window.showNotify(0, response.data.message, 1250);
+                        }).catch(window.errorHandler);
+                    }}>
+                        <option value="0">Пользователь</option>
+                        <option value="1">Администратор</option>
+                    </select>
+                </div>
                 <p className="t3">{acc.login}</p>
                 <p className="t4">{acc.email}</p>
                 <p className="t5">{this.formatDate(acc.timestamp)}</p>
+                <div className="t6" onClick={() => {
+                    if (!window.confirm("Вы уверены, что хотите удалить аккаунт?")) return;
+                    axios.delete(`http://localhost:22005/admin/deleteAccount?id=${acc.id}`)
+                        .then((response) => {
+                            this.updateData();
+                            window.showNotify(0, response.data.message, 1250);
+                        }).catch(window.errorHandler);
+                }}>
+                    <img alt="" src="http://localhost:22005/trash.png" />
+                </div>
             </div>);
         });
         return <div className="ListDiv">

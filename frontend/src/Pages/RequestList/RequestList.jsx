@@ -27,13 +27,13 @@ export default class RequestList extends React.Component {
 
     addAnswerToRequest(id, answer) {
         if (answer) axios.post('http://localhost:22005/responses/approve', { id }).then(response => {
-            alert(response.data.message);
+            window.showNotify(2, response.data.message, 2000);
             axios.get('http://localhost:22005/requests/getAll')
                 .then(response => this.setState({ listOfRequests: response.data }))
                 .catch(window.errorHandler);
         }).catch(window.errorHandler);
         else axios.post('http://localhost:22005/responses/deny', { id }).then(response => {
-            alert(response.data.message);
+            window.showNotify(2, response.data.message, 2000);
             axios.get('http://localhost:22005/requests/getAll')
                 .then(response => this.setState({ listOfRequests: response.data }))
                 .catch(window.errorHandler);

@@ -10,7 +10,7 @@ export default {
             primaryKey: true
         },
         login: {
-            type: Sequelize.STRING(15),
+            type: Sequelize.STRING(24),
             allowNull: false,
             defaultValue: ""
         },
