@@ -1,0 +1,143 @@
+import React from "react";
+import "./StatusList.scss";
+import axios from "axios";
+
+export default class StatusList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            updateTimeout: undefined,
+            names: new Map(),
+            filter: { name: "" },
+            creating: { name: "" },
+            cookies: {},
+            statuses: [
+                // { id: 1, name: "Обучается" },
+                // { id: 2, name: "В академическом отпуске" },
+                // { id: 3, name: "Отчислен" },
+                // { id: 4, name: "На индивидуальном плане" }
+            ]
+        };
+    }
+
+    componentDidMount() {
+        window.getCookies().then(result => this.setState({ cookies: result }));
+        axios.get(`http://localhost:22005/admin/getStatusList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
+            if (response.status !== 200) return;
+            this.setState({ statuses: response.data });
+        }).catch(window.errorHandler);
+    }
+
+    updateData() {
+        axios.get(`http://localhost:22005/admin/getStatusList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
+            if (response.status !== 200) return;
+            this.setState({ statuses: response.data });
+        }).catch(window.errorHandler);
+    }
+
+    getGroups() {
+        const Groups = [];
+        this.state.groups.forEach(group => Groups.push(<option key={group.id} value={String(group.id)}>{group.name}</option>));
+        return Groups;
+    }
+
+    getStatuses() {
+        const Statuses = [];
+        this.state.statuses.forEach(status => Statuses.push(<option key={status.id} value={String(status.id)}>{status.name}</option>));
+        return Statuses;
+    }
+
+    getStatusCreating() {
+        return <div className="ListCreate">
+            <div className="inputContainer">
+                <p>Имя</p>
+                <input placeholder="Имя" onChange={(e) => {
+                    const RegedString = String(e.target.value).replace(/[^а-яА-Я\s]/g, "");
+                    this.setState({ creating: { ...this.state.creating, name: RegedString } });
+                }} value={this.state.creating.name} />
+            </div>
+            <div className="Button" onClick={() => {
+                axios.post('http://localhost:22005/admin/addStatus', this.state.creating)
+                    .then((response) => {
+                        this.updateData();
+                        window.showNotify(0, response.data.message, 1750);
+                    }).catch(window.errorHandler);
+            }}>Создать</div>
+        </div>;
+    }
+
+    getFilter() {
+        return <div className="ListFilter">
+            <div className="NameSettings">
+                <p>Имя</p>
+                <input value={this.state.filter.name} onChange={(e) => {
+                    const RegedString = String(e.target.value).replace(/[^а-яА-Я\s]/g, "");
+                    if (RegedString.length < 70) this.setState({ filter: { ...this.state.filter, name: RegedString } });
+                    if (this.state.updateTimeout) {
+                        clearTimeout(this.state.updateTimeout);
+                        this.state.updateTimeout = undefined;
+                    }
+                    this.state.updateTimeout = setTimeout(this.updateData.bind(this), 500);
+                }} />
+            </div>
+        </div >;
+    }
+
+    getList() {
+        const List = [];
+        this.state.statuses.forEach((status, idx) => {
+            List.push(<div className="ListItem" key={idx}>
+                <p className="t1">{status.id}</p>
+                <p className="t2">{status.name}</p>
+                <div className="t3">
+                    <input value={this.state.names.get(status.id)} onChange={(e) => {
+                        const RegedString = String(e.target.value).replace(/[^а-яА-Я\s]/g, "");
+                        if (RegedString.length < 120) this.setState((prev) => {
+                            prev.names.set(status.id, RegedString);
+                            return prev;
+                        });
+                    }} />
+                    <div onClick={() => {
+                        axios.post(`http://localhost:22005/admin/renameStatus`, { id: status.id, name: this.state.names.get(status.id) })
+                            .then((response) => {
+                                this.updateData();
+                                window.showNotify(0, response.data.message, 1250);
+                            }).catch(window.errorHandler);
+                    }}>применить</div>
+                </div>
+                <div className="t6" onClick={() => {
+                    if (!window.confirm("Вы уверены, что хотите удалить статус?")) return;
+                    axios.delete(`http://localhost:22005/admin/deleteStatus?id=${status.id}`)
+                        .then((response) => {
+                            this.updateData();
+                            window.showNotify(0, response.data.message, 1250);
+                        }).catch(window.errorHandler);
+                }}>
+                    <img alt="" src="http://localhost:22005/trash.png" />
+                </div>
+            </div>);
+        });
+        return <div className="ListDiv">
+            <div className="ListHeader">
+                <p className="t1">ID</p>
+                <p className="t2">имя</p>
+                <p className="t3">новое имя</p>
+            </div>
+            <div className="ListBody">
+                {List}
+            </div>
+        </div>;
+    }
+
+    render() {
+        return <div className="StatusListMainScreen">
+            <h1>Студенты</h1>
+            <h2>Добавление статуса</h2>
+            {this.getStatusCreating()}
+            <h2>Фильтр</h2>
+            {this.getFilter()}
+            <h2>Список статусов</h2>
+            {this.getList()}
+        </div>;
+    }
+}
