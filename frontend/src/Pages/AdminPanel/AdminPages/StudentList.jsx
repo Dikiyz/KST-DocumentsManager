@@ -19,22 +19,8 @@ export default class StudentList extends React.Component {
             },
             students: [],
             cookies: {},
-            groups: [
-                // { id: 1, name: "СИП-133/21-вб" },
-                // { id: 2, name: "СИП-233/21-вб" },
-                // { id: 3, name: "СИП-333/21-вб" },
-                // { id: 4, name: "СИП-433/21-вб" },
-                // { id: 5, name: "СИП-132/21-вб" },
-                // { id: 6, name: "СИП-232/21-вб" },
-                // { id: 7, name: "СИП-332/21-вб" },
-                // { id: 8, name: "СИП-432/21-вб" }
-            ],
-            statuses: [
-                // { id: 1, name: "Обучается" },
-                // { id: 2, name: "В академическом отпуске" },
-                // { id: 3, name: "Отчислен" },
-                // { id: 4, name: "На индивидуальном плане" }
-            ]
+            groups: [],
+            statuses: []
         };
     }
 
@@ -76,9 +62,6 @@ export default class StudentList extends React.Component {
         return Statuses;
     }
 
-    // name: "",
-    // status_id: -1,
-    // group_id: -1
     getStudentCreating() {
         return <div className="ListCreate">
             <div className="inputContainer">
@@ -195,7 +178,7 @@ export default class StudentList extends React.Component {
                     </select>
                 </div>
                 <div className="t6" onClick={() => {
-                    if (!window.confirm("Вы уверены, что хотите удалить аккаунт?")) return;
+                    if (!window.confirm("Вы уверены, что хотите удалить студента?")) return;
                     axios.delete(`http://localhost:22005/admin/deleteStudent?id=${student.id}`)
                         .then((response) => {
                             this.updateData();

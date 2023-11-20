@@ -57,11 +57,11 @@ Responses_Define.belongsTo(Requests_Define, { foreignKey: 'request_id' });
 Doc_Types_Define.hasMany(Requests_Define, { foreignKey: 'doc_type_id' });
 Requests_Define.belongsTo(Doc_Types_Define, { foreignKey: 'doc_type_id' });
 
-Student_Statuses_Define.hasMany(Students_Define, { foreignKey: 'status_id' });
-Students_Define.belongsTo(Student_Statuses_Define, { foreignKey: 'status_id' });
+Student_Statuses_Define.hasMany(Students_Define, { foreignKey: 'status_id', onDelete: "SET NULL" });
+Students_Define.belongsTo(Student_Statuses_Define, { foreignKey: 'status_id', onDelete: "SET NULL" });
 
-Groups_Define.hasMany(Students_Define, { foreignKey: 'group_id' });
-Students_Define.belongsTo(Groups_Define, { foreignKey: 'group_id' });
+Groups_Define.hasMany(Students_Define, { foreignKey: 'group_id', onDelete: "SET NULL" });
+Students_Define.belongsTo(Groups_Define, { foreignKey: 'group_id', onDelete: "SET NULL" });
 //#endregion
 
 connect();

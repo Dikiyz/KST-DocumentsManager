@@ -9,14 +9,14 @@ router.post('/addNewAccount', adminController.addNewAccount);
 router.delete('/deleteAccount', adminController.deleteAccount);
 
 router.get('/getGroupList', adminController.getGroups);
-router.post('/addGroup', adminController.setNewStatus);
-router.post('/renameGroup', adminController.setNewStatus);
-router.delete('/deleteGroup', adminController.deleteAccount);
+router.post('/addGroup', adminController.setNewStatus); //
+router.post('/renameGroup', adminController.setNewStatus); //
+router.delete('/deleteGroup', adminController.deleteAccount); //
 
 router.get('/getStatusList', adminController.getStatuses);
-router.post('/addStatus', adminController.setNewStatus);
-router.post('/renameStatus', adminController.setNewStatus);
-router.delete('/deleteStatus', adminController.deleteAccount);
+router.post('/addStatus', adminController.addSatus);
+router.post('/renameStatus', adminController.renameStatus);
+router.delete('/deleteStatus', adminController.deleteStatus);
 
 router.get('/getStudentList', adminController.getStudents);
 router.post('/addStudent', adminController.addStudent);

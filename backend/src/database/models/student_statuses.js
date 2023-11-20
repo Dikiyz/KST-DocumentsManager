@@ -5,7 +5,7 @@ export default {
     params: {
         id: {
             autoIncrement: true,
-            type: Sequelize.TINYINT,
+            type: Sequelize.BIGINT,
             allowNull: false,
             primaryKey: true
         },

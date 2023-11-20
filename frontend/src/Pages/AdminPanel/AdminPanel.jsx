@@ -1,6 +1,7 @@
 import React from "react";
 import "./AdminPanel.scss";
 import AccountList from "./AdminPages/AccountList";
+import StatusList from "./AdminPages/StatusList";
 import StudentList from "./AdminPages/StudentList";
 
 const PageList = [
@@ -10,7 +11,7 @@ const PageList = [
     <StudentList />,
     null,
     null,
-    null,
+    <StatusList />,
     <AccountList />
 ];
 
@@ -18,7 +19,7 @@ export default class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: 3,
+            active: 4,
             cookies: {},
         };
     }

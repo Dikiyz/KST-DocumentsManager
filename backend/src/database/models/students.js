@@ -15,9 +15,9 @@ export default {
             defaultValue: ""
         },
         status_id: {
-            type: TINYINT,
-            allowNull: false,
-            defaultValue: 1
+            type: Sequelize.BIGINT,
+            allowNull: true,
+            defaultValue: null
         },
         group_id: {
             type: Sequelize.BIGINT,

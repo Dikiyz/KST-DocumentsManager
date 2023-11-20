@@ -31,6 +31,48 @@ export default class AdminController {
             else response.status(200).json(StatusList);
         } catch (err) { System.error('AdminController [getStudents] error: ' + err); }
     }
+
+    static async addSatus(request, response, next) {
+        try {
+            const { name } = request.body;
+            if (!name) return next(ApiError.internal("Имя не дошло."));
+            const ExistStatus = await Student_Statuses_DB.findOne({ where: { name } });
+            if (ExistStatus) return next(ApiError.internal("Статус с таким именем уже сушествует."));
+            await Student_Statuses_DB.create({ name });
+            response.status(200).json({ message: "Вы успешно добавили статус." });
+        } catch (err) {
+            System.error('AdminController [addSatus] error: ' + err);
+            next(ApiError.internal("Ошибка при добавлении статуса."));
+        }
+    }
+
+    static async renameStatus(request, response, next) {
+        try {
+            const { id, name } = request.body;
+            if (!name || !id) return next(ApiError.internal("Имя или id не дошли."));
+            const ExistStatus = await Student_Statuses_DB.findOne({ where: { id } });
+            if (!ExistStatus) return next(ApiError.internal("Статус с таким id не сушествует."));
+            await Student_Statuses_DB.update({ name }, { where: { id } });
+            response.status(200).json({ message: "Вы успешно изменили статус." });
+        } catch (err) {
+            System.error('AdminController [addSatus] error: ' + err);
+            next(ApiError.internal("Ошибка при добавлении статуса."));
+        }
+    }
+
+    static async deleteStatus(request, response, next) {
+        try {
+            const { id } = request.query;
+            if (!id) return next(ApiError.internal("ID не дошел."));
+            const ExistStatus = await Student_Statuses_DB.findOne({ where: { id } });
+            if (!ExistStatus) return next(ApiError.internal("Статуса с таким id не сушествует."));
+            Student_Statuses_DB.destroy({ where: { id } });
+            response.status(200).json({ message: "Вы успешно удалили статус." });
+        } catch (err) {
+            System.error('AdminController [deleteStatus] error: ' + err);
+            next(ApiError.internal("Ошибка при добавлении статуса."));
+        }
+    }
     //#endregion
 
     //#region Students
@@ -72,7 +114,7 @@ export default class AdminController {
             const { id, group_id } = request.body;
             const Student = await Students_DB.findByPk(id);
             if (!Student) return next(ApiError.internal("Студент не найден."));
-            const Group = await Groups_DB.findByPk(id);
+            const Group = await Groups_DB.findByPk(group_id);
             if (!Group) return next(ApiError.internal("Группа не найден."));
             await Students_DB.update({ group_id }, { where: { id } });
             response.status(200).json({ message: "Группа студента успешно изменена." });
@@ -84,7 +126,7 @@ export default class AdminController {
             const { id, status_id } = request.body;
             const Student = await Students_DB.findByPk(id);
             if (!Student) return next(ApiError.internal("Студент не найден."));
-            const Status = await Student_Statuses_DB.findByPk(id);
+            const Status = await Student_Statuses_DB.findByPk(status_id);
             if (!Status) return next(ApiError.internal("Статус не найден."));
             await Students_DB.update({ status_id }, { where: { id } });
             response.status(200).json({ message: "Статус студента успешно изменен." });
