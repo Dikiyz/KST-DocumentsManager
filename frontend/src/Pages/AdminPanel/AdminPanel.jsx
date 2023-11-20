@@ -1,12 +1,13 @@
 import React from "react";
 import "./AdminPanel.scss";
 import AccountList from "./AdminPages/AccountList";
+import StudentList from "./AdminPages/StudentList";
 
 const PageList = [
     null,
     null,
     null,
-    null,
+    <StudentList />,
     null,
     null,
     null,
@@ -17,7 +18,7 @@ export default class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: 7,
+            active: 3,
             cookies: {},
         };
     }
@@ -28,14 +29,30 @@ export default class AdminPanel extends React.Component {
 
     getManageMenu() {
         return <div className="ManageMenu">
-            <div className={`ManageButton` + (this.state.active === 0 ? ' active' : '')}>Оставить заявку</div>
-            <div className={`ManageButton` + (this.state.active === 1 ? ' active' : '')}>Активнык заявки</div>
-            <div className={`ManageButton` + (this.state.active === 2 ? ' active' : '')}>Закрытые заявки</div>
-            <div className={`ManageButton` + (this.state.active === 3 ? ' active' : '')}>Список студентов</div>
-            <div className={`ManageButton` + (this.state.active === 4 ? ' active' : '')}>Список групп</div>
-            <div className={`ManageButton` + (this.state.active === 5 ? ' active' : '')}>Список справок</div>
-            <div className={`ManageButton` + (this.state.active === 6 ? ' active' : '')}>Список статусов</div>
-            <div className={`ManageButton last` + (this.state.active === 7 ? ' active' : '')}>Список аккаунтов</div>
+            <div className={`ManageButton` + (this.state.active === 0 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 0 });
+            }}>Оставить заявку</div>
+            <div className={`ManageButton` + (this.state.active === 1 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 1 });
+            }}>Активнык заявки</div>
+            <div className={`ManageButton` + (this.state.active === 2 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 2 });
+            }}>Закрытые заявки</div>
+            <div className={`ManageButton` + (this.state.active === 3 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 3 });
+            }}>Список студентов</div>
+            <div className={`ManageButton` + (this.state.active === 4 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 4 });
+            }}>Список групп</div>
+            <div className={`ManageButton` + (this.state.active === 5 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 5 });
+            }}>Список справок</div>
+            <div className={`ManageButton` + (this.state.active === 6 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 6 });
+            }}>Список статусов</div>
+            <div className={`ManageButton last` + (this.state.active === 7 ? ' active' : '')} onClick={() => {
+                this.setState({ active: 7 });
+            }}>Список аккаунтов</div>
         </div >;
     }
 

@@ -1,12 +1,11 @@
 import Router from "express";
 import responsesController from "../controllers/responsesController.js";
-import checkIsAdminMiddleware from "../middlewares/checkIsAdminMiddleware.js";
 
 const router = new Router();
 
-router.post('/approve', checkIsAdminMiddleware, responsesController.approve);
-router.post('/deny', checkIsAdminMiddleware, responsesController.deny);
-router.get('/getMy', checkIsAdminMiddleware, responsesController.getMy);
-router.get('/getAll', checkIsAdminMiddleware, responsesController.getAll);
+router.post('/approve', responsesController.approve);
+router.post('/deny', responsesController.deny);
+router.get('/getMy', responsesController.getMy);
+router.get('/getAll', responsesController.getAll);
 
 export default router;

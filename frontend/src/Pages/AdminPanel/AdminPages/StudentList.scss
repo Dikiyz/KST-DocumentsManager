@@ -1,4 +1,4 @@
-.AccountListMainScreen {
+.StudentListMainScreen {
     box-sizing: border-box;
     width: 1520px;
     display: flex;
@@ -55,10 +55,18 @@
         display: flex;
         gap: 75px;
 
-        > .RegSettings {
-            width: 375px;
-            justify-content: space-between;
+        > .NameSettings {
             display: flex;
+            flex-direction: column;
+
+            > input {
+                width: 275px;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 17px;
+                border: 1px solid #9a9a9a;
+                outline: none;
+            }
         }
     }
 
@@ -84,19 +92,15 @@
                 }
 
                 &.t2 {
-                    width: 250px;
+                    width: 550px;
                 }
 
                 &.t3 {
-                    width: 300px;
+                    width: 250px;
                 }
 
                 &.t4 {
                     width: 350px;
-                }
-
-                &.t5 {
-                    width: 250px;
                 }
             }
         }
@@ -107,14 +111,19 @@
                 align-items: center;
                 height: 45px;
 
-                >.t2 {
+                > .t3,
+                > .t4 {
                     width: 250px;
                     display: flex;
                     align-items: center;
-                    justify-content: center
+                    justify-content: center;
                 }
 
-                >.t6 {
+                > .t4 {
+                    width: 350px;
+                }
+
+                > .t6 {
                     width: 35px;
                     height: 35px;
                     display: flex;
@@ -124,12 +133,12 @@
                     background-color: #515151;
                     transition: background-color 0.2s;
                     cursor: pointer;
-                    
+
                     &:hover {
                         background-color: red;
                     }
 
-                    >img {
+                    > img {
                         height: 70%;
                     }
                 }
@@ -143,16 +152,16 @@
                         width: 50px;
                     }
 
+                    &.t2 {
+                        width: 550px;
+                    }
+
                     &.t3 {
                         width: 300px;
                     }
 
                     &.t4 {
                         width: 350px;
-                    }
-
-                    &.t5 {
-                        width: 250px;
                     }
                 }
             }
