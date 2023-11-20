@@ -43,18 +43,18 @@ const router = createBrowserRouter([
         path: "/responses",
         element: <RequestPage />,
     },
-    {
-        path: "/myResponses",
-        element: <MyResponses />,
-    },
+    // {
+    //     path: "/myResponses",
+    //     element: <MyResponses />,
+    // },
     {
         path: "/myRequests",
         element: <MyRequestList />,
     },
-    {
-        path: "/requests",
-        element: <RequestList />,
-    },
+    // {
+    //     path: "/requests",
+    //     element: <RequestList />,
+    // },
 ]);
 
 function App() {

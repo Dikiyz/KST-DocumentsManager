@@ -1,0 +1,128 @@
+.RequestListMainScreen {
+    box-sizing: border-box;
+    width: 1520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1% 5%;
+
+    > * {
+        width: 100%;
+        color: #212121;
+        font-family: Inter-Regular;
+    }
+
+    > h2 {
+        margin: 25px 0 10px 0;
+    }
+
+    > div {
+        border-radius: 5px;
+        border: 1px solid #9a9a9a;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    > .ListFilter {
+        display: flex;
+        gap: 75px;
+
+        > .NameSettings {
+            display: flex;
+            flex-direction: column;
+
+            > input {
+                width: 275px;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 17px;
+                border: 1px solid #9a9a9a;
+                outline: none;
+            }
+        }
+    }
+
+    > .ListDiv {
+        > div {
+            width: 100%;
+        }
+
+        > .ListHeader {
+            display: flex;
+            align-items: flex-start;
+            height: 34px;
+            border-bottom: solid 2px #515151;
+
+            > p {
+                font-size: 20px;
+                font-family: Inter-SemiBold;
+                text-align: center;
+
+                &.t1 {
+                    text-align: left;
+                    width: 50px;
+                }
+
+                &.t2 {
+                    width: 300px;
+                }
+
+                &.t3 {
+                    width: 400px;
+                }
+            }
+        }
+
+        > .ListBody {
+            > .ListItem {
+                display: flex;
+                align-items: center;
+                height: 45px;
+
+                > p {
+                    font-size: 20px;
+                    text-align: center;
+
+                    &.t1 {
+                        text-align: left;
+                        width: 50px;
+                    }
+
+                    &.t2 {
+                        width: 300px;
+                    }
+
+                    &.t3 {
+                        width: 400px;
+                    }
+                }
+
+                > .t4,
+                > .t5 {
+                    width: 35px;
+                    height: 35px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 5px;
+                    background-color: #515151;
+                    transition: background-color 0.2s;
+                    cursor: pointer;
+                    margin-right: 15px;
+
+                    &:hover {
+                        background-color: green;
+                    }
+
+                    > img {
+                        height: 70%;
+                    }
+                }
+
+                > .t5:hover {
+                    background-color: red;
+                }
+            }
+        }
+    }
+}

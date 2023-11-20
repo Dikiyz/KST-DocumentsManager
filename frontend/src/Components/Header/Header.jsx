@@ -17,7 +17,7 @@ export default class Header extends React.Component {
         return <>
             <div className="Logo">
                 <p>КСТ</p>
-                <p className="small">Панель администратора</p>
+                {this.state.cookies?.UserDTO?.is_admin && <p className="small">Панель администратора</p>}
             </div>
             <div className="ExitButton">Выйти</div>
             {/* <div className="ButtonList">

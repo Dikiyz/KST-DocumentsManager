@@ -3,6 +3,9 @@ import adminController from "../controllers/adminController.js";
 
 const router = new Router();
 
+router.get('/getRequestList', adminController.getRequests);
+router.post('/addResponse', adminController.addRequest);
+
 router.get('/getUserList', adminController.getUsers);
 router.post('/setNewStatus', adminController.setNewStatus);
 router.post('/addNewAccount', adminController.addNewAccount);

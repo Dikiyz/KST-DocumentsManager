@@ -8,31 +8,18 @@ export default class RequestPage extends React.Component {
         super(props);
         this.state = {
             cookies: {},
-            FIO: "",
-            selectedType: "1",
-            types: {
-                "1": "Форма 0-86у",
-                "2": "Форма 0-87у",
-                "3": "Форма 0-88у",
-                "4": "Форма 0-89у",
-                "5": "Форма 0-90у",
-            }
+            FIO: ""
         };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:22005/requests/types')
-            .then(response => this.setState({ types: response.data }))
-            .catch(window.errorHandler);
-        window.getCookies().then(result => this.setState({ cookies: result }));
     }
 
     onSubmit(e) {
         e.preventDefault();
         axios.post('http://localhost:22005/requests/new', {
-            student_name: this.state.FIO,
-            type: parseInt(this.state.selectedType)
-        }).then(response => window.showNotify(2, "Справка успешно заказана.", 2000))
+            student_name: this.state.FIO
+        }).then(response => window.showNotify(0, "Справка успешно заказана.", 2000))
             .catch(window.errorHandler);
     }
 
@@ -43,12 +30,6 @@ export default class RequestPage extends React.Component {
     }
 
     getTypes() {
-        const Types = [];
-
-        for (let i in this.state.types)
-            Types.push(<option key={i} value={i}>{this.state.types[i]}</option>);
-
-        return Types;
     }
 
     render() {
@@ -64,15 +45,12 @@ export default class RequestPage extends React.Component {
                                     value={this.state.FIO}
                                     onChange={this.onChangeFIO.bind(this)}
                                 />
-                                <select
-                                    className="TypeList"
-                                    onChange={(e) => {
-                                        this.setState({ selectedType: e.target.value });
-                                    }}
-                                    value={this.state.selectedType}
-                                >{this.getTypes()}</select>
                             </div>
                             <button type="submit">Заказать</button>
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                window.location = "/myRequests";
+                            }}>Одобренные заявки</button>
                         </div>
                     </form>
                 </div>

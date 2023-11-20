@@ -3,7 +3,6 @@ import System from "../system.js";
 
 import users from "./models/users.js";
 import tokens from "./models/tokens.js";
-import doc_types from "./models/doc_types.js";
 import requests from "./models/requests.js";
 import responses from "./models/responses.js";
 import students from "./models/students.js";
@@ -34,7 +33,6 @@ async function connect() {
 
 const Users_Define = sequelize.define(users.name, users.params, users.params2);
 const Tokens_Define = sequelize.define(tokens.name, tokens.params, tokens.params2);
-const Doc_Types_Define = sequelize.define(doc_types.name, doc_types.params, doc_types.params2);
 const Requests_Define = sequelize.define(requests.name, requests.params, requests.params2);
 const Responses_Define = sequelize.define(responses.name, responses.params, responses.params2);
 const Students_Define = sequelize.define(students.name, students.params, students.params2);
@@ -45,17 +43,17 @@ const Groups_Define = sequelize.define(groups.name, groups.params, groups.params
 Users_Define.hasMany(Tokens_Define, { foreignKey: 'user_id' });
 Tokens_Define.belongsTo(Users_Define, { foreignKey: 'user_id' });
 
-Users_Define.hasMany(Requests_Define, { foreignKey: 'user_id' });
-Requests_Define.belongsTo(Users_Define, { foreignKey: 'user_id' });
+Users_Define.hasMany(Requests_Define, { foreignKey: 'user_id', onDelete: "SET NULL" });
+Requests_Define.belongsTo(Users_Define, { foreignKey: 'user_id', onDelete: "SET NULL" });
 
-Users_Define.hasMany(Responses_Define, { foreignKey: 'user_id' });
-Responses_Define.belongsTo(Users_Define, { foreignKey: 'user_id' });
+Users_Define.hasMany(Responses_Define, { foreignKey: 'user_id', onDelete: "SET NULL" });
+Responses_Define.belongsTo(Users_Define, { foreignKey: 'user_id', onDelete: "SET NULL" });
 
 Requests_Define.hasOne(Responses_Define, { foreignKey: 'request_id' });
 Responses_Define.belongsTo(Requests_Define, { foreignKey: 'request_id' });
 
-Doc_Types_Define.hasMany(Requests_Define, { foreignKey: 'doc_type_id' });
-Requests_Define.belongsTo(Doc_Types_Define, { foreignKey: 'doc_type_id' });
+Students_Define.hasMany(Requests_Define, { foreignKey: 'student_id', onDelete: "SET NULL" });
+Requests_Define.belongsTo(Students_Define, { foreignKey: 'student_id', onDelete: "SET NULL" });
 
 Student_Statuses_Define.hasMany(Students_Define, { foreignKey: 'status_id', onDelete: "SET NULL" });
 Students_Define.belongsTo(Student_Statuses_Define, { foreignKey: 'status_id', onDelete: "SET NULL" });
@@ -68,7 +66,6 @@ connect();
 
 export const Users_DB = Users_Define;
 export const Tokens_DB = Tokens_Define;
-export const Doc_Types_DB = Doc_Types_Define;
 export const Requests_DB = Requests_Define;
 export const Responses_DB = Responses_Define;
 export const Students_DB = Students_Define;

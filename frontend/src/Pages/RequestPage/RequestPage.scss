@@ -38,26 +38,13 @@ $radius: 10px;
                     justify-content: space-between;
 
                     > input {
-                        width: 450px;
+                        width: 600px;
                         padding: 7px 15px;
                         font-family: "Inter";
                         font-size: 25px;
                         border: none;
                         outline: none;
                         border-radius: $radius;
-                    }
-
-                    > .TypeList {
-                        width: 125px;
-                        border: none;
-                        outline: none;
-                        border-radius: $radius;
-
-                        > option {
-                            border: none;
-                            outline: none;
-                            border-radius: $radius;
-                        }
                     }
                 }
 
@@ -69,6 +56,12 @@ $radius: 10px;
                     height: 50px;
                     font-size: 20px;
                     font-family: "Inter-SemiBold";
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+
+                    &:hover {
+                        background-color: #BABABA;
+                    }
                 }
             }
         }

@@ -11,17 +11,13 @@ export default {
         },
         user_id: {
             type: Sequelize.BIGINT,
-            allowNull: false
+            allowNull: true,
+            defaultValue: null
         },
-        student_name: {
-            type: Sequelize.STRING(256),
-            allowNull: false,
-            defaultValue: ""
-        },
-        doc_type_id: {
-            type: Sequelize.TINYINT,
-            allowNull: false,
-            defaultValue: 0
+        student_id: {
+            type: Sequelize.BIGINT,
+            allowNull: true,
+            defaultValue: null
         },
         is_allow: {
             type: Sequelize.BOOLEAN,

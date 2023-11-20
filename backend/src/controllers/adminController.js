@@ -1,10 +1,48 @@
 import { Op } from "sequelize";
-import { Groups_DB, Student_Statuses_DB, Students_DB, Users_DB } from "../database/index.js";
+import { Groups_DB, Requests_DB, Responses_DB, Student_Statuses_DB, Students_DB, Users_DB } from "../database/index.js";
 import System from "../system.js";
 import ApiError from "../ApiError.js";
 import { UserService } from "../services/index.js";
 
 export default class AdminController {
+    //#region Requests
+    static async getRequests(request, response, next) {
+        try {
+            let Filter = {}
+            if (request.query.filter) Filter = JSON.parse(request.query.filter);
+            const where = {};
+            const whereUser = {};
+            const whereStudend = {};
+            if (Filter.name && Filter.name !== "") whereStudend.name = { [Op.like]: `%${Filter.name}%` };
+            if (Filter.login && Filter.login !== "") whereUser.login = { [Op.like]: `%${Filter.login}%` };
+            where.is_allow = Filter.is_allow || null;
+            const include = [
+                { model: Users_DB, as: "user", where: whereUser },
+                { model: Students_DB, as: "student", where: whereStudend }
+            ];
+            if (Filter.is_allow === undefined) {
+                where.is_allow = { [Op.ne]: null };
+                include.push({ model: Responses_DB, as: "response", include: { model: Users_DB, as: "user" } });
+            }
+            const RequestList = await Requests_DB.findAll({ where, include });
+            if (!RequestList || RequestList.length === 0) response.status(200).json([]);
+            else response.status(200).json(RequestList);
+        } catch (err) { System.error('AdminController [getRequests] error: ' + err); }
+    }
+
+    static async addRequest(request, response, next) {
+        try {
+            const { id, is_allow } = request.body;
+            if (!id) return next(ApiError.internal("ID не дошло."));
+            const ExistRequest = await Responses_DB.findOne({ where: { request_id: id } });
+            if (ExistRequest) return next(ApiError.internal("На эту заявку уже ответили."));
+            await Responses_DB.create({ user_id: request.cookies.UserDTO.id, request_id: id, is_allow })
+            await Requests_DB.update({ is_allow }, { where: { id } });
+            response.status(200).json({ message: "Вы успешно ответили на заявку." });
+        } catch (err) { System.error('AdminController [addRequest] error: ' + err); }
+    }
+    //#endregion
+
     //#region Groups
     static async getGroups(request, response, next) {
         try {

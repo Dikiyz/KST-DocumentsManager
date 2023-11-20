@@ -11,7 +11,8 @@ export default {
         },
         user_id: {
             type: Sequelize.BIGINT,
-            allowNull: false
+            allowNull: true,
+            defaultValue: null
         },
         request_id: {
             type: Sequelize.BIGINT,

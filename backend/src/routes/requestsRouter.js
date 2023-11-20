@@ -7,6 +7,7 @@ const router = new Router();
 router.post('/new', requestController.addNew);
 router.get('/types', requestController.getTypeList);
 router.get('/getMy', requestController.getMy);
+router.get('/getReady', requestController.downLoad);
 router.get('/getAll', checkIsAdminMiddleware, requestController.getAll);
 
 export default router;

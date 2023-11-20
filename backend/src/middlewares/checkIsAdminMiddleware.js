@@ -16,9 +16,9 @@ export default async function (request, response, next) {
             next(ApiError.badRequest("Токен для авторизации не валиден."));
             return;
         }
-        if (!TokenData.user.is_admin) return next(ApiError.badRequest("У Вас нет доступа."));
-        if (request.cookies["UserDto"] !== new UserDto(TokenData.user))
+        if (request.cookies["UserDTO"] !== new UserDto(TokenData.user))
             response.cookie('UserDTO', new UserDto(TokenData.user), { maxAge: 31 * 24 * 60 * 60 * 1000, httpOnly: true });
+        if (!TokenData.user.is_admin) return next(ApiError.badRequest("У Вас нет доступа."));
         next();
     } catch (err) { next(ApiError.internal(`Ошибка проверки прав администратора: ${err}`)); }
 };

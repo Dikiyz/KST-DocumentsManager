@@ -16,7 +16,7 @@ export default async function (request, response, next) {
             next(ApiError.badRequest("Токен для авторизации не валиден."));
             return;
         }
-        if (request.cookies.UserDto !== new UserDto(TokenData.user))
+        if (request.cookies.UserDTO !== new UserDto(TokenData.user))
             response.cookie('UserDTO', new UserDto(TokenData.user), { maxAge: 31 * 24 * 60 * 60 * 1000, httpOnly: true });
         next();
     } catch (err) { next(ApiError.internal(`Ошибка проверки авторизации: ${err}`)); }
