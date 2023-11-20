@@ -66,7 +66,7 @@ export default class StudentList extends React.Component {
         return <div className="ListCreate">
             <div className="inputContainer">
                 <p>Имя</p>
-                <input placeholder="Логин" onChange={(e) => {
+                <input placeholder="Имя" onChange={(e) => {
                     const RegedString = String(e.target.value).replace(/[^а-яА-Я\s]/g, "");
                     this.setState({ creating: { ...this.state.creating, name: RegedString } });
                 }} value={this.state.creating.name} />
