@@ -1,4 +1,4 @@
-import { Op, Sequelize } from "sequelize";
+import { Op } from "sequelize";
 import { Groups_DB, Student_Statuses_DB, Students_DB, Users_DB } from "../database/index.js";
 import System from "../system.js";
 import ApiError from "../ApiError.js";
@@ -15,7 +15,49 @@ export default class AdminController {
             const GroupList = await Groups_DB.findAll({ where });
             if (!GroupList || GroupList.length === 0) response.status(200).json([]);
             else response.status(200).json(GroupList);
-        } catch (err) { System.error('AdminController [getStudents] error: ' + err); }
+        } catch (err) { System.error('AdminController [getGroups] error: ' + err); }
+    }
+
+    static async addGroup(request, response, next) {
+        try {
+            const { name } = request.body;
+            if (!name) return next(ApiError.internal("Имя не дошло."));
+            const ExistGroup = await Groups_DB.findOne({ where: { name } });
+            if (ExistGroup) return next(ApiError.internal("Группы с таким именем уже сушествует."));
+            await Groups_DB.create({ name });
+            response.status(200).json({ message: "Вы успешно добавили группу." });
+        } catch (err) {
+            System.error('AdminController [addGroup] error: ' + err);
+            next(ApiError.internal("Ошибка при добавлении группы."));
+        }
+    }
+
+    static async renameGroup(request, response, next) {
+        try {
+            const { id, name } = request.body;
+            if (!name || !id) return next(ApiError.internal("Имя или id не дошли."));
+            const ExistGroup = await Groups_DB.findOne({ where: { id } });
+            if (!ExistGroup) return next(ApiError.internal("Группы с таким id не сушествует."));
+            await Groups_DB.update({ name }, { where: { id } });
+            response.status(200).json({ message: "Вы успешно изменили группу." });
+        } catch (err) {
+            System.error('AdminController [renameGroup] error: ' + err);
+            next(ApiError.internal("Ошибка при переименовывании группы."));
+        }
+    }
+
+    static async deleteGroup(request, response, next) {
+        try {
+            const { id } = request.query;
+            if (!id) return next(ApiError.internal("ID не дошел."));
+            const ExistGroup = await Groups_DB.findOne({ where: { id } });
+            if (!ExistGroup) return next(ApiError.internal("Группы с таким id не сушествует."));
+            Groups_DB.destroy({ where: { id } });
+            response.status(200).json({ message: "Вы успешно удалили группу." });
+        } catch (err) {
+            System.error('AdminController [deleteGroup] error: ' + err);
+            next(ApiError.internal("Ошибка при удалении группы."));
+        }
     }
     //#endregion
 
@@ -29,7 +71,7 @@ export default class AdminController {
             const StatusList = await Student_Statuses_DB.findAll({ where });
             if (!StatusList || StatusList.length === 0) response.status(200).json([]);
             else response.status(200).json(StatusList);
-        } catch (err) { System.error('AdminController [getStudents] error: ' + err); }
+        } catch (err) { System.error('AdminController [getStatuses] error: ' + err); }
     }
 
     static async addSatus(request, response, next) {
@@ -56,7 +98,7 @@ export default class AdminController {
             response.status(200).json({ message: "Вы успешно изменили статус." });
         } catch (err) {
             System.error('AdminController [addSatus] error: ' + err);
-            next(ApiError.internal("Ошибка при добавлении статуса."));
+            next(ApiError.internal("Ошибка при переименовывании статуса."));
         }
     }
 
@@ -70,7 +112,7 @@ export default class AdminController {
             response.status(200).json({ message: "Вы успешно удалили статус." });
         } catch (err) {
             System.error('AdminController [deleteStatus] error: ' + err);
-            next(ApiError.internal("Ошибка при добавлении статуса."));
+            next(ApiError.internal("Ошибка при удалении статуса."));
         }
     }
     //#endregion

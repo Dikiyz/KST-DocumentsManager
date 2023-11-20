@@ -9,9 +9,9 @@ router.post('/addNewAccount', adminController.addNewAccount);
 router.delete('/deleteAccount', adminController.deleteAccount);
 
 router.get('/getGroupList', adminController.getGroups);
-router.post('/addGroup', adminController.setNewStatus); //
-router.post('/renameGroup', adminController.setNewStatus); //
-router.delete('/deleteGroup', adminController.deleteAccount); //
+router.post('/addGroup', adminController.addGroup);
+router.post('/renameGroup', adminController.renameGroup);
+router.delete('/deleteGroup', adminController.deleteGroup);
 
 router.get('/getStatusList', adminController.getStatuses);
 router.post('/addStatus', adminController.addSatus);

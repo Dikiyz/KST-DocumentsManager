@@ -1,8 +1,8 @@
 import React from "react";
-import "./StatusList.scss";
+import "./GroupList.scss";
 import axios from "axios";
 
-export default class StatusList extends React.Component {
+export default class GroupList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,7 +11,7 @@ export default class StatusList extends React.Component {
             filter: { name: "" },
             creating: { name: "" },
             cookies: {},
-            statuses: [
+            groups: [
                 // { id: 1, name: "Обучается" },
                 // { id: 2, name: "В академическом отпуске" },
                 // { id: 3, name: "Отчислен" },
@@ -22,20 +22,20 @@ export default class StatusList extends React.Component {
 
     componentDidMount() {
         window.getCookies().then(result => this.setState({ cookies: result }));
-        axios.get(`http://localhost:22005/admin/getStatusList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
+        axios.get(`http://localhost:22005/admin/getGroupList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
             if (response.status !== 200) return;
-            this.setState({ statuses: response.data });
+            this.setState({ groups: response.data });
         }).catch(window.errorHandler);
     }
 
     updateData() {
-        axios.get(`http://localhost:22005/admin/getStatusList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
+        axios.get(`http://localhost:22005/admin/getGroupList?filter=${JSON.stringify(this.state.filter)}`).then(response => {
             if (response.status !== 200) return;
-            this.setState({ statuses: response.data });
+            this.setState({ groups: response.data });
         }).catch(window.errorHandler);
     }
 
-    getStatusCreating() {
+    getGroupCreating() {
         return <div className="ListCreate">
             <div className="inputContainer">
                 <p>Имя</p>
@@ -45,7 +45,7 @@ export default class StatusList extends React.Component {
                 }} value={this.state.creating.name} />
             </div>
             <div className="Button" onClick={() => {
-                axios.post('http://localhost:22005/admin/addStatus', this.state.creating)
+                axios.post('http://localhost:22005/admin/addGroup', this.state.creating)
                     .then((response) => {
                         this.updateData();
                         window.showNotify(0, response.data.message, 1750);
@@ -73,20 +73,20 @@ export default class StatusList extends React.Component {
 
     getList() {
         const List = [];
-        this.state.statuses.forEach((status, idx) => {
+        this.state.groups.forEach((group, idx) => {
             List.push(<div className="ListItem" key={idx}>
-                <p className="t1">{status.id}</p>
-                <p className="t2">{status.name}</p>
+                <p className="t1">{group.id}</p>
+                <p className="t2">{group.name}</p>
                 <div className="t3">
-                    <input value={this.state.names.get(status.id)} onChange={(e) => {
+                    <input value={this.state.names.get(group.id)} onChange={(e) => {
                         const RegedString = String(e.target.value).replace(/[^а-яА-Я\s]/g, "");
                         if (RegedString.length < 120) this.setState((prev) => {
-                            prev.names.set(status.id, RegedString);
+                            prev.names.set(group.id, RegedString);
                             return prev;
                         });
                     }} />
                     <div onClick={() => {
-                        axios.post(`http://localhost:22005/admin/renameStatus`, { id: status.id, name: this.state.names.get(status.id) })
+                        axios.post(`http://localhost:22005/admin/renameGroup`, { id: group.id, name: this.state.names.get(group.id) })
                             .then((response) => {
                                 this.updateData();
                                 window.showNotify(0, response.data.message, 1250);
@@ -94,8 +94,8 @@ export default class StatusList extends React.Component {
                     }}>применить</div>
                 </div>
                 <div className="t6" onClick={() => {
-                    if (!window.confirm("Вы уверены, что хотите удалить статус?")) return;
-                    axios.delete(`http://localhost:22005/admin/deleteStatus?id=${status.id}`)
+                    if (!window.confirm("Вы уверены, что хотите удалить группу?")) return;
+                    axios.delete(`http://localhost:22005/admin/deleteGroup?id=${group.id}`)
                         .then((response) => {
                             this.updateData();
                             window.showNotify(0, response.data.message, 1250);
@@ -118,13 +118,13 @@ export default class StatusList extends React.Component {
     }
 
     render() {
-        return <div className="StatusListMainScreen">
-            <h1>Статусы</h1>
-            <h2>Добавление статуса</h2>
-            {this.getStatusCreating()}
+        return <div className="GroupListMainScreen">
+            <h1>Группы</h1>
+            <h2>Добавление группы</h2>
+            {this.getGroupCreating()}
             <h2>Фильтр</h2>
             {this.getFilter()}
-            <h2>Список статусов</h2>
+            <h2>Список групп</h2>
             {this.getList()}
         </div>;
     }

@@ -3,13 +3,14 @@ import "./AdminPanel.scss";
 import AccountList from "./AdminPages/AccountList";
 import StatusList from "./AdminPages/StatusList";
 import StudentList from "./AdminPages/StudentList";
+import GroupList from "./AdminPages/GroupList";
 
 const PageList = [
     null,
     null,
     null,
     <StudentList />,
-    null,
+    <GroupList />,
     null,
     <StatusList />,
     <AccountList />
