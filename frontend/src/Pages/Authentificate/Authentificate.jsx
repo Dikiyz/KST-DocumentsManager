@@ -18,7 +18,7 @@ export default class Authentificate extends React.Component {
     componentDidMount() {
         window.getCookies().then(result => this.setState(
             this.setState({ cookies: result }, () => {
-                if (this.state.cookies?.UserDTO !== undefined) window.location = "/responses";
+                if (String(this.state.cookies?.UserDTO) != "undefined") window.location = "/responses";
             })
         ));
     }

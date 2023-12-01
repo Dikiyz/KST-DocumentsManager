@@ -19,6 +19,11 @@ export default {
             allowNull: true,
             defaultValue: null
         },
+        doc_type_id: {
+            type: Sequelize.BIGINT,
+            allowNull: true,
+            defaultValue: null
+        },
         is_allow: {
             type: Sequelize.BOOLEAN,
             allowNull: true,

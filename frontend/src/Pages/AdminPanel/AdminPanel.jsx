@@ -39,10 +39,10 @@ export default class AdminPanel extends React.Component {
         return <div className="ManageMenu">
             <div className={`ManageButton` + (this.state.active === 0 ? ' active' : '')} onClick={() => {
                 this.setState({ active: 0 });
-            }}>Активнык заявки</div>
+            }}>Заявки</div>
             <div className={`ManageButton` + (this.state.active === 1 ? ' active' : '')} onClick={() => {
                 this.setState({ active: 1 });
-            }}>Закрытые заявки</div>
+            }}>Список справок</div>
             <div className={`ManageButton` + (this.state.active === 2 ? ' active' : '')} onClick={() => {
                 this.setState({ active: 2 });
             }}>Список студентов</div>

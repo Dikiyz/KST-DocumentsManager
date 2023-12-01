@@ -23,6 +23,17 @@
         background-color: #f9f9f9;
     }
 
+    > .TaskCreator {
+        display: flex;
+        gap: 75px;
+
+        > .RegSettings {
+            width: 375px;
+            justify-content: space-between;
+            display: flex;
+        }
+    }
+
     > .ListFilter {
         display: flex;
         gap: 75px;

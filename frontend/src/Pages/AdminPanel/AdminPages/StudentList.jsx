@@ -177,6 +177,20 @@ export default class StudentList extends React.Component {
                         {this.getStatuses()}
                     </select>
                 </div>
+                <div className="t5">
+                    <select value={String(student.have_doc ? 1 : 0)} onChange={(e) => {
+                        axios.post(`http://localhost:22005/admin/changeStudentHaveDoc`, {
+                            id: student.id,
+                            status: parseInt(e.target.value)
+                        }).then((response) => {
+                            this.updateData();
+                            window.showNotify(0, response.data.message, 1250);
+                        }).catch(window.errorHandler);
+                    }}>
+                        <option value={"0"}>Нет</option>
+                        <option value={"1"}>Есть</option>
+                    </select>
+                </div>
                 <div className="t6" onClick={() => {
                     if (!window.confirm("Вы уверены, что хотите удалить студента?")) return;
                     axios.delete(`http://localhost:22005/admin/deleteStudent?id=${student.id}`)
@@ -195,6 +209,7 @@ export default class StudentList extends React.Component {
                 <p className="t2">ФИО</p>
                 <p className="t3">группа</p>
                 <p className="t4">статус</p>
+                <p className="t5">приписное</p>
             </div>
             <div className="ListBody">
                 {List}

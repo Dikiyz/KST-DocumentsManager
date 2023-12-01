@@ -1,5 +1,6 @@
 import React from "react";
 import "./Header.scss";
+import axios from "axios";
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -19,15 +20,10 @@ export default class Header extends React.Component {
                 <p>КСТ</p>
                 {this.state.cookies?.UserDTO?.is_admin && <p className="small">Панель администратора</p>}
             </div>
-            <div className="ExitButton">Выйти</div>
-            {/* <div className="ButtonList">
-                <div onClick={() => window.location = "/responses"}>Заказаать справку</div>
-                <div onClick={() => window.location = "/myRequests"}>Мои заказы</div>
-                {this.state.cookies?.UserDTO?.is_admin && <>
-                    <div onClick={() => window.location = "/requests"}>Заказы</div>
-                    <div onClick={() => window.location = "/myResponses"}>Мои решения</div>
-                </>}
-            </div> */}
+            <div className="ExitButton" onClick={() => {
+                axios.post('http://localhost:22005/authorization/logOut', {}).then(() => window.location = "/")
+                    .catch(window.errorHandler);
+            }}>Выйти</div>
         </>;
     }
 

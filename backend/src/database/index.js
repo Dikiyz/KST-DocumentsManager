@@ -10,6 +10,7 @@ import student_statuses from "./models/student_statuses.js";
 import groups from "./models/groups.js";
 
 import env from "dotenv";
+import doc_types from "./models/doc_types.js";
 env.config();
 
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -38,6 +39,7 @@ const Responses_Define = sequelize.define(responses.name, responses.params, resp
 const Students_Define = sequelize.define(students.name, students.params, students.params2);
 const Student_Statuses_Define = sequelize.define(student_statuses.name, student_statuses.params, student_statuses.params2);
 const Groups_Define = sequelize.define(groups.name, groups.params, groups.params2);
+const Doc_Types_Define = sequelize.define(doc_types.name, doc_types.params, doc_types.params2);
 
 //#region Associations
 Users_Define.hasMany(Tokens_Define, { foreignKey: 'user_id' });
@@ -60,6 +62,9 @@ Students_Define.belongsTo(Student_Statuses_Define, { foreignKey: 'status_id', on
 
 Groups_Define.hasMany(Students_Define, { foreignKey: 'group_id', onDelete: "SET NULL" });
 Students_Define.belongsTo(Groups_Define, { foreignKey: 'group_id', onDelete: "SET NULL" });
+
+Doc_Types_Define.hasMany(Requests_Define, { foreignKey: 'doc_type_id', onDelete: "SET NULL" });
+Requests_Define.belongsTo(Doc_Types_Define, { foreignKey: 'doc_type_id', onDelete: "SET NULL" });
 //#endregion
 
 connect();
@@ -71,3 +76,4 @@ export const Responses_DB = Responses_Define;
 export const Students_DB = Students_Define;
 export const Student_Statuses_DB = Student_Statuses_Define;
 export const Groups_DB = Groups_Define;
+export const Doc_Types_DB = Doc_Types_Define;

@@ -23,6 +23,34 @@
         background-color: #f9f9f9;
     }
 
+    > .ListCreate {
+        display: flex;
+        align-items: flex-end;
+        gap: 40px;
+
+        > .inputContainer {
+            > p {
+                font-size: 20px;
+            }
+
+            > input {
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 17px;
+                border: 1px solid #9a9a9a;
+                outline: none;
+            }
+        }
+
+        > .Button {
+            cursor: pointer;
+            padding: 7px 10px;
+            border-radius: 5px;
+            font-size: 25px;
+            background-color: #78f068;
+        }
+    }
+
     > .ListFilter {
         display: flex;
         gap: 75px;
@@ -64,20 +92,12 @@
                 }
 
                 &.t2 {
-                    width: 200px;
-                }
-
-                &.t3 {
                     width: 400px;
                 }
+            }
 
-                &.t4 {
-                    width: 200px;
-                }
-
-                &.t5 {
-                    width: 150px;
-                }
+            > .t3 {
+                width: 400px;
             }
         }
 
@@ -97,19 +117,50 @@
                     }
 
                     &.t2 {
-                        width: 200px;
-                    }
-
-                    &.t3 {
                         width: 400px;
                     }
+                }
 
-                    &.t4 {
-                        width: 200px;
+                > .t3 {
+                    width: 400px;
+                    display: flex;
+                    gap: 10px;
+
+                    > input {
+                        width: 250px;
+                        border-radius: 5px;
+                        padding: 5px;
+                        font-size: 17px;
+                        border: 1px solid #9a9a9a;
+                        outline: none;
                     }
 
-                    &.t5 {
-                        width: 150px;
+                    > div {
+                        background-color: #00cc00;
+                        color: black;
+                        cursor: pointer;
+                        padding: 5px 15px;
+                        border-radius: 5px;
+                    }
+                }
+
+                > .t6 {
+                    width: 35px;
+                    height: 35px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 5px;
+                    background-color: #515151;
+                    transition: background-color 0.2s;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: red;
+                    }
+
+                    > img {
+                        height: 70%;
                     }
                 }
             }

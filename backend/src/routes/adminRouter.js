@@ -11,6 +11,13 @@ router.post('/setNewStatus', adminController.setNewStatus);
 router.post('/addNewAccount', adminController.addNewAccount);
 router.delete('/deleteAccount', adminController.deleteAccount);
 
+router.post('/changeStudentHaveDoc', adminController.changeStudentHaveDoc);
+router.get('/getExel', adminController.getExel);
+router.get('/getDocTypeList', adminController.getDocTypes);
+router.post('/addDocType', adminController.addDocType);
+router.post('/renameDocType', adminController.renameDocType);
+router.delete('/deleteDocType', adminController.deleteDocType);
+
 router.get('/getGroupList', adminController.getGroups);
 router.post('/addGroup', adminController.addGroup);
 router.post('/renameGroup', adminController.renameGroup);

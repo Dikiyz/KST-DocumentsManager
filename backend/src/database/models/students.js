@@ -14,6 +14,11 @@ export default {
             allowNull: false,
             defaultValue: ""
         },
+        have_doc: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
         status_id: {
             type: Sequelize.BIGINT,
             allowNull: true,

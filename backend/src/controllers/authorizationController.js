@@ -21,9 +21,14 @@ export default class AuthorizationController {
         } catch (err) { System.error('AuthorizationController [logIn] error: ' + err); }
     }
 
-    static logOut(request, response, next) {
+    static async logOut(request, response, next) {
         try {
-            response.status(200).json({ message: "Coming soon..." });
+            const token = request.cookies.auth_token;
+            if (!token) return next(ApiError.badRequest("Вы не авторизованы."));
+            await Tokens_DB.destroy({ where: { key: token } });
+            response.cookie('auth_token', undefined);
+            response.cookie('UserDTO', undefined);
+            response.status(200).json({ message: "Вы успешно разлогинились." });
         } catch (err) { System.error('AuthorizationController [logOut] error: ' + err); }
     }
 }
